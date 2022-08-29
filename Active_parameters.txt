@@ -1,0 +1,7 @@
+Differential Pulse Voltammetry
+E begin (V)	-0.25
+E end (V)	0.25
+E step (V)	0.008
+E pulse (V)	0.025
+t pulse (s)	0.05
+Scan rate (V/s)	0.05
