@@ -7,12 +7,15 @@ def search(xx, yy):
     width = 10
 
     peaks, params_ = find_peaks(yy, width=width, height=thresh, prominence=peakHeight, rel_height=0.5)
-    peaks = peaks[0]  # Allows only one peak, the first detected by default
+
+    try:
+        peaks = peaks[0]  # Allows only one peak, the first detected by default
+    except IndexError:
+        peaks = -1  # in case no peak is found
     # TODo calculate following parameters only if peak exists
     # baseline equation
     m = (yy[-1]-yy[0])/(xx[-1]-xx[0])
     b = yy[0] - m*xx[0]
-
 
     #peak height
     curr_base = m * xx[peaks] + b
@@ -21,6 +24,7 @@ def search(xx, yy):
     area = peak_area(xx, yy, m, b)
 
     return peaks, params_, area, ph, xx[0], xx[-1], yy[0], yy[-1]
+
 
 
 def peak_area(xx, yy, mbase, bbase):
