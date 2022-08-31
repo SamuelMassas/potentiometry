@@ -499,25 +499,25 @@ class NewTabGUI:
             xx = x[min([idx1, idx0]):max([idx1, idx0])]
             yy = y[min([idx1, idx0]):max([idx1, idx0])]
 
-            peaks, params_, area, ph, xb0, xb1, yb0, yb1 = ppss.search(xx, yy)
-            if peaks != -1:
-                line, serie_index = self.get_line()[:2]
-                color = line.get_color()
-                baseline = self.chart.axes_.plot([xb0, xb1], [yb0, yb1], color=color)
-                vlines = self.chart.axes_.vlines(x=xx[peaks], ymin=yy[peaks] - ph, ymax=yy[peaks], color=color)
-                note_peak = self.chart.axes_.annotate(f'   {round(ph, 4)}' + u'\u00B5A',
-                                                      (xx[peaks], yy[peaks]),
-                                                      color=color,
-                                                      fontsize='large')
-                note_area = self.chart.axes_.annotate(f'   {round(area, 4)}' + u'\u00B5A\u00B7V',
-                                                      (xx[peaks], yy[peaks]-ph/2),
-                                                      color=color,
-                                                      fontsize='large')
-                self.chart.peak_list[serie_index].append([vlines, baseline, note_peak, note_area, peaks, params_])
-                self.chart.canvas.draw()
-            else:
-                messagebox.showwarning('No peak found!', 'No peak was found, please try selecting a different window!')
-
+            if len(xx) > 0:  # ensuring that the user selected a valid interval
+                peaks, params_, area, ph, xb0, xb1, yb0, yb1 = ppss.search(xx, yy)
+                if peaks != -1:
+                    line, serie_index = self.get_line()[:2]
+                    color = line.get_color()
+                    baseline = self.chart.axes_.plot([xb0, xb1], [yb0, yb1], color=color)
+                    vlines = self.chart.axes_.vlines(x=xx[peaks], ymin=yy[peaks] - ph, ymax=yy[peaks], color=color)
+                    note_peak = self.chart.axes_.annotate(f'   {round(ph, 4)}' + u'\u00B5A',
+                                                          (xx[peaks], yy[peaks]),
+                                                          color=color,
+                                                          fontsize='large')
+                    note_area = self.chart.axes_.annotate(f'   {round(area, 4)}' + u'\u00B5A\u00B7V',
+                                                          (xx[peaks], yy[peaks]-ph/2),
+                                                          color=color,
+                                                          fontsize='large')
+                    self.chart.peak_list[serie_index].append([vlines, baseline, note_peak, note_area, peaks, params_])
+                    self.chart.canvas.draw()
+                else:
+                    messagebox.showwarning('No peak found!', 'No peak was found, please try selecting a different window!')
         else:
             results, combl = s4p(x[idx1:idx0], y[idx1:idx0], name=name, display=False)
             x_pp, ph, area, pot1, pot2, curr1, curr2, y_peak = results
