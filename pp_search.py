@@ -2,7 +2,8 @@ from scipy.signal import find_peaks
 
 
 def search(xx, yy):
-    thresh = 0
+    # thresh = 0
+    thresh = None  # setting thresh to 0 can influence the detection of very small peaks
     peakHeight = 0.001
     width = 10
 
@@ -24,7 +25,6 @@ def search(xx, yy):
     area = peak_area(xx, yy, m, b)
 
     return peaks, params_, area, ph, xx[0], xx[-1], yy[0], yy[-1]
-
 
 
 def peak_area(xx, yy, mbase, bbase):
